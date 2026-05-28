@@ -1,0 +1,170 @@
+{
+  "topics": [
+    {
+      "id": 0,
+      "label": "Doctrinal defense",
+      "top_words": ["paulusbriefen","authoritate","abendmahlsbekenntnis","retraktation","drucklegung","aphorisme","saturitas","verteidigungsschrift","theologenkonvent","evangelie"],
+      "color": "#1f77b4",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 1,
+      "label": "Eucharist controversy",
+      "top_words": ["abendmahl","schrift","gegner","frage","kommentar","bekenntnis","buch","streit","konkordie","innocentia"],
+      "color": "#4a90c4",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 2,
+      "label": "Book trade",
+      "top_words": ["folium","fasciculus","pretium","carmen","florenus","praefatio","nundinus","editio","famulus","pannus"],
+      "color": "#2ca02c",
+      "theme": "everyday",
+      "noise": false
+    },
+    {
+      "id": 3,
+      "label": "Church governance",
+      "top_words": ["communitas","suffragium","praeses","decretum","iuramentum","senatus","conventus","matrimonium","scandalum","synodus"],
+      "color": "#6baed6",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 4,
+      "label": "Patronage",
+      "top_words": ["parens","commendatio","beneuolentia","patronus","benignitas","eruditio","puer","occupatio","molestia","clementia"],
+      "color": "#52b552",
+      "theme": "everyday",
+      "noise": false
+    },
+    {
+      "id": 5,
+      "label": "Health and illness",
+      "top_words": ["gesundheit","graus","erbietung","froschof","herrich","eidgnosschaft","kaisen","biechel","backet","brund"],
+      "color": "#74c476",
+      "theme": "everyday",
+      "noise": false
+    },
+    {
+      "id": 6,
+      "label": "Moral education",
+      "top_words": ["genitor","uterum","ergastulum","grammaticus","colendus","commendatitius","prouisor","collaborator","prudencia","chyrographus"],
+      "color": "#9ecae1",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 7,
+      "label": "Military affairs",
+      "top_words": ["truppe","heer","tagsatzung","soldat","reiter","gesandter","ratsherr","frieden","lager","feind"],
+      "color": "#d62728",
+      "theme": "political",
+      "noise": false
+    },
+    {
+      "id": 8,
+      "label": "Canon law",
+      "top_words": ["ehrwird","rachts","conzili","sampt","infall","heiligkeit","pluscula","transcursus","eiser","zwegen"],
+      "color": "#969696",
+      "theme": "noise",
+      "noise": true
+    },
+    {
+      "id": 9,
+      "label": "Meaning of life",
+      "top_words": ["significium","seinis","acia","landes","sentia","molus","satio","copus","papo","grater"],
+      "color": "#bdbdbd",
+      "theme": "noise",
+      "noise": false
+    },
+    {
+      "id": 10,
+      "label": "Siege warfare",
+      "top_words": ["admirallius","milliarus","praesidiarius","sonitus","reginus","prelium","inflammatio","opifex","ripa","asperitas"],
+      "color": "#737373",
+      "theme": "noise",
+      "noise": true
+    },
+    {
+      "id": 11,
+      "label": "Moral renewal",
+      "top_words": ["desyderius","impius","innouatio","prouisor","genitor","colendus","corruptor","adoptio","reparatio","centurio"],
+      "color": "#aec7e8",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 12,
+      "label": "Naval battle",
+      "top_words": ["prinz","admiral","schiff","eidgnosse","wasser","knacht","liegen","geschrei","adel","pferd"],
+      "color": "#e8645a",
+      "theme": "political",
+      "noise": false
+    },
+    {
+      "id": 13,
+      "label": "Religious war",
+      "top_words": ["religionsfriede","ersatz","durchreise","fastenzeit","botenmangel","wiedereinsetzung","kriegsvorbereitung","ermordung","mitte","festnahme"],
+      "color": "#f07070",
+      "theme": "political",
+      "noise": false
+    },
+    {
+      "id": 14,
+      "label": "Church administration",
+      "top_words": ["knabe","pfleger","jesheit","predikand","beiwohnung","chronica","stiftung","pfarrherr","mandate","landsfriede"],
+      "color": "#99ccee",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 15,
+      "label": "Grace and Service",
+      "top_words": ["gnade","dienst","diener","datum","friede","zeit","ehre","herz","willen","bitten"],
+      "color": "#c6dbef",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 16,
+      "label": "Spiritual Encouragement",
+      "top_words": ["excellentia","obseruantia","ecclesiola","delirium","amplexus","uineus","dnus","iactatio","inpraesentia","cohortatio"],
+      "color": "#deebf7",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 17,
+      "label": "Military campaign",
+      "top_words": ["exercitus","eques","miles","bellum","pedes","clades","arma","castra","nauis","seditio"],
+      "color": "#ad494a",
+      "theme": "political",
+      "noise": false
+    },
+    {
+      "id": 18,
+      "label": "Eucharist doctrine",
+      "top_words": ["corpus","spiritus","coena","sacramentum","confessio","apostolus","peccatum","scriptura","panis","natura"],
+      "color": "#3a80b4",
+      "theme": "confessional",
+      "noise": false
+    },
+    {
+      "id": 19,
+      "label": "Political Prosecution",
+      "top_words": ["parlamentum","exequutio","tormentarius","sclopetarius","colloquutor","confederatio","galerum","indictio","rego","subuersio"],
+      "color": "#c7393a",
+      "theme": "political",
+      "noise": false
+    }
+  ],
+  "legend": {
+    "confessional": "#1f77b4 → #deebf7 (blue family: ids 0,1,3,6,11,14,15,16,18)",
+    "political":    "#ad494a → #f07070 (red family: ids 7,12,13,17,19)",
+    "everyday":     "#2ca02c → #74c476 (green family: ids 2,4,5)",
+    "noise":        "#737373 → #bdbdbd (grey family: ids 8,9,10)"
+  }
+}

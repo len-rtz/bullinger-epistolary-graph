@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bullinger Correspondence Network</title>
+<script src="https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2/build/graphology-layout-forceatlas2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/graphology/0.25.1/graphology.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/2.4.0/sigma.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:monospace;font-size:13px;background:#fff;color:#000;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#topbar{display:flex;align-items:center;gap:12px;padding:5px 10px;border-bottom:1px solid #000;flex-shrink:0;flex-wrap:wrap}
+#topbar h1{font-size:13px;font-weight:bold;white-space:nowrap}
+.view-btn{padding:2px 8px;border:1px solid #000;background:#fff;cursor:pointer;font-family:monospace;font-size:12px}
+.view-btn.active{background:#000;color:#fff}
+#status{color:#666;font-size:11px;margin-left:auto}
+#main{display:flex;flex:1;overflow:hidden}
+#panel{width:210px;border-right:1px solid #000;overflow-y:auto;flex-shrink:0;padding:8px;display:flex;flex-direction:column;gap:10px}
+#panel h2{font-size:11px;text-transform:uppercase;border-bottom:1px solid #ccc;padding-bottom:2px;margin-bottom:2px}
+#window-presets{display:flex;gap:3px;flex-wrap:wrap}
+.preset-btn{padding:1px 5px;border:1px solid #000;background:#fff;cursor:pointer;font-family:monospace;font-size:11px}
+.preset-btn.active{background:#000;color:#fff}
+.toggle-btn{padding:1px 5px;border:1px solid #000;background:#fff;cursor:pointer;font-family:monospace;font-size:11px}
+.toggle-btn.active{background:#000;color:#fff}
+#play-btn{padding:1px 8px;border:1px solid #000;background:#fff;cursor:pointer;font-family:monospace;font-size:11px;width:80px}
+#timeline-slider,#threshold-slider{width:100%;cursor:pointer;accent-color:#000}
+#timeline-label{padding:4px 4px; font-size:11px;color:#555}
+.topic-row{display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:4px 0}
+.topic-swatch{width:10px;height:10px;border:1px solid #ccc;flex-shrink:0}
+.topic-row label{cursor:pointer;flex:1}
+#cf-select{width:100%;font-family:monospace;font-size:11px;border:1px solid #ccc;padding:2px}
+#threshold-val{font-size:11px}
+#ego-info{font-size:11px;color:#555;padding:10px}
+#ego-clear{font-family:monospace;font-size:11px;border:1px solid #000;background:#ff6868;cursor:pointer;padding:2px 6px;display:none}
+#viewport{flex:1;position:relative;overflow:hidden}
+#sigma-container{width:100%;height:100%}
+#map-container{width:100%;height:100%;display:none}
+#detail{width:300px;border-left:1px solid #000;overflow-y:auto;flex-shrink:0;padding:12px;font-size:11px;display:flex;flex-direction:column;gap:6px}
+#detail h2{font-size:11px;text-transform:uppercase;border-bottom:1px solid #ccc;padding-bottom:6px}
+.detail-placeholder{color:#999;font-style:italic}
+.detail-meta{display:flex;flex-direction:column;gap:4px}
+.detail-row{display:flex;gap:10px}
+.dk{color:#666;min-width:64px;flex-shrink:0}
+.citation-entry{border:1px solid #ddd;padding:3px 5px;display:flex;flex-direction:column;gap:2px;margin-bottom:3px}
+.citation-score{font-size:10px;color:#555}
+.reference-toggle{font-size:10px;color:#555;cursor:pointer;text-decoration:underline;background:none;border:none;font-family:monospace;padding:0;text-align:left}
+.reference-block{display:none;font-size:10px;color:#333;border-top:1px solid #eee;padding-top:3px;margin-top:2px;white-space:pre-wrap;word-break:break-word}
+.reference-block.open{display:block}
+.ev-btn{padding:1px 5px;border:1px solid #000;background:#fff;cursor:pointer;font-family:monospace;font-size:11px}
+.ev-btn.active{background:#000;color:#fff}
+.bd-link{color:#00f;text-decoration:underline;cursor:pointer;font-size:11px}
+.person-portrait{width:50px;height:50px;object-fit:cover;border:1px solid #ccc}
+#loading{position:absolute;inset:0;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:12px;z-index:1000}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <h1>Bullinger Digital Network</h1>
+  <button class="view-btn active" data-view="letters">Letters</button>
+  <button class="view-btn" data-view="persons">Persons</button>
+  <button class="view-btn" data-view="map">Map</button>
+  <div style="position:relative">
+    <input id="search-input" type="text" placeholder="search letter ID or person…" style="font-family:monospace;font-size:12px;border:1px solid #000;padding:2px 6px;width:220px;">
+    <div id="search-results" style="position:absolute;top:24px;left:0;background:#fff;border:1px solid #000;z-index:9999;font-family:monospace;font-size:11px;max-height:200px;overflow-y:auto;display:none;min-width:260px;"></div>
+  </div>
+  <span id="status">loading…</span>
+</div>
+
+<div id="main">
+  <div id="panel">
+    <div>
+      <h2>Timeline</h2>
+      <div id="window-presets">
+        <button class="preset-btn" data-days="7">1w</button>
+        <button class="preset-btn" data-days="14">2w</button>
+        <button class="preset-btn" data-days="30">1m</button>
+        <button class="preset-btn" data-days="90">3m</button>
+        <button class="preset-btn active" data-days="180">6m</button>
+        <button class="preset-btn" data-days="365">12m</button>
+      </div>
+      <input type="range" id="timeline-slider" min="0" max="100" value="100">
+      <div id="timeline-label">—</div>
+      <button id="play-btn">▶ Start</button>
+    </div>
+        <div>
+  <h2>Display</h2>
+    <button id="topic-color-btn" class="toggle-btn active" style="width:100%;text-align:left;margin-bottom:4px">topics: on</button>
+<button id="cf-edge-btn" class="toggle-btn" style="width:100%;text-align:left">shared reference candidates: off</button>
+</div>
+    <div>
+      <h2>Topics</h2>
+      <div id="topic-filters"></div>
+    </div>
+    <div>
+      <h2>Church Father</h2>
+      <select id="cf-select"><option value="">— all —</option></select>
+    </div>
+    <div>
+      <h2>Citation threshold</h2>
+      <input type="range" id="threshold-slider" min="0.5" max="1" step="0.01" value="0.63">
+      <span id="threshold-val">≥ 0.50</span>
+    </div>
+  <div>
+    <h2>Candidates per citation</h2>
+    <div id="reference-presets">
+      <button class="ev-btn active" data-k="1">top 1</button>
+      <button class="ev-btn" data-k="5">top 5</button>
+      <button class="ev-btn" data-k="10">top 10</button>
+      <button class="ev-btn" data-k="20">top 20</button>
+    </div>
+  </div>
+    <div>
+      <h2>Ego network</h2>
+      <div id="ego-info">click a node to focus</div>
+      <button id="ego-clear">× clear</button>
+    </div>
+  </div>
+
+  <div id="viewport">
+    <div id="loading">loading data…</div>
+    <div id="sigma-container"></div>
+    <div id="map-container"></div>
+  </div>
+
+  <div id="detail">
+    <h2>Detail</h2>
+    <div id="detail-content"><div class="detail-placeholder">Click a node to inspect.</div></div>
+  </div>
+</div>
+
+
+<script src="js/app.js"></script>
+</body>
+</html>
