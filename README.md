@@ -1,5 +1,5 @@
 # Bullinger Correspondence Network — Interactive Visualisation
-Web-based interactive visualisation of the Bullinger correspondence network, enriched with patristic reference candidates and topics from topic model run.
+Web-based interactive visualisation of the Bullinger correspondence network with letters from [Bullinger Digital](https://www.bullinger-digital.ch/), enriched with patristic reference candidates and topics from topic model run.
 
 ## Running locally
 ```bash
@@ -47,6 +47,6 @@ data/
 ![Screenshot](screenshot.png)
 
 ## Related repositories
-- [bullinger-topic-modelling](https://github.com/len-rtz/bullinger-topic-modelling)) 
-- [bullinger-patristic-detection](https://github.com/len-rtz/bullinger-patristic-detection))
+- [bullinger-topic-modelling](https://github.com/len-rtz/bullinger-topic-modelling)
+- [bullinger-patristic-detection](https://github.com/len-rtz/bullinger-patristic-detection)
 - [bullinger-references-topics](https://huggingface.co/datasets/len-rtz/bullinger-references-topics)
