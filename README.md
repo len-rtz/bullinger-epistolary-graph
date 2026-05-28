@@ -1,5 +1,5 @@
 # Bullinger Correspondence Network — Interactive Visualisation
-Web-based interactive visualisation of the Bullinger correspondence network, enriched with patristic citation detection and topics from topic model run.
+Web-based interactive visualisation of the Bullinger correspondence network, enriched with patristic reference candidates and topics from topic model run.
 
 ## Running locally
 ```bash
@@ -23,7 +23,7 @@ data/
 ├── topics/
 │   └── topics_meta.json          # topic labels + colours
 └── citations/ # HOSTED ON HF
-    ├── letter_citations_index.json   # from aggregate_citations.py
+    ├── letter_citations_index.json   
     └── detail/
         └── {letter_id}.json          # per-letter detail, loaded on click
 ```
@@ -34,7 +34,7 @@ data/
 |---|---|
 | Letters | Force-directed graph of letters, coloured by dominant topic |
 | Persons | Correspondence network of people, sized by letter count |
-| Map | Geographic map of sending locations with arc volume |
+| Map | Geographic map of sending locations |
 
 ## Filters
 
@@ -45,3 +45,8 @@ data/
 - **Ego network** — click any node to collapse graph to that node's neighbourhood
 
 ![Screenshot](screenshot.png)
+
+## Related repositories
+- [bullinger-topic-modelling](https://github.com/len-rtz/bullinger-topic-modelling)) 
+- [bullinger-patristic-detection](https://github.com/len-rtz/bullinger-patristic-detection))
+- [bullinger-references-topics](https://huggingface.co/datasets/len-rtz/bullinger-references-topics)
