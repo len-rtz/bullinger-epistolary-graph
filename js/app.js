@@ -34,7 +34,6 @@ const DATA = {
   letters:      [],   // letters_index.json
   persons:      {},   // persons_index.json keyed by id
   places:       {},   // places_index.json keyed by id
-  personEdges:  [],   // person_edges.json
   locationArcs: [],   // location_arcs.json
   topicsMeta:   [],   // topics_meta.json .topics array
   pscIndex:     {},   // psc_index.json .fathers keyed by cf_id
@@ -85,19 +84,17 @@ async function fetchJSON(path) {
 
 async function loadCoreData() {
   setStatus("loading…");
-  const [letters, personsArr, placesArr, personEdges, locationArcs, topicsFile, pscFile] =
+  const [letters, personsArr, placesArr, locationArcs, topicsFile, pscFile] =
     await Promise.all([
       fetchJSON("data/graph/letters_index.json"),
       fetchJSON("data/graph/persons_index.json"),
       fetchJSON("data/graph/places_index.json"),
-      fetchJSON("data/graph/person_edges.json"),
       fetchJSON("data/graph/location_arcs.json"),
       fetchJSON("data/topics/topics_meta.json"),
       fetchJSON("data/graph/psc_index.json"),
     ]);
 
   DATA.letters      = letters;
-  DATA.personEdges  = personEdges;
   DATA.locationArcs = locationArcs;
   DATA.topicsMeta   = topicsFile.topics || [];
 
@@ -303,7 +300,7 @@ function buildLetterGraph() {
   });
 
   // Epistolary edges — only between visible letters
-  // two letters are connected if same non-Bullinger person AND within 60 days
+  // two letters are connected if same non-Bullinger person AND within 30 days
   const BULLINGER = "p495";
   const byPerson = {};
   letters.forEach(l => {
@@ -319,7 +316,7 @@ function buildLetterGraph() {
       for (let j = i + 1; j < group.length; j++) {
         const a = group[i], b = group[j];
         const da = parseDate(a.date), db = parseDate(b.date);
-        if (da && db && Math.abs(da - db) <= 60 * 86400000) {
+        if (da && db && Math.abs(da - db) <= 30 * 86400000) {
           const eid = `${a.id}-${b.id}`;
           if (!graph.hasEdge(a.id, b.id)) {
             graph.addEdge(a.id, b.id, { size: 0.5, color: "#ccc" });

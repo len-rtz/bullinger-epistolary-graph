@@ -8,25 +8,57 @@ python -m http.server 8000
 # then open http://localhost:8000
 ```
 
-## Data files
+### Reusing web app
+Swap the JSON files; topics and citations are optional.
+
+### Data files
 
 ```
 data/
 ├── graph/
 │   ├── letters_index.json        
 │   ├── location_arcs.json
-│   ├── person_edges.json
-│   ├── person_topic_vectors.json
 │   ├── persons_index.json
 │   ├── places_index.json
-│   └── psc_index.json            
+│   └── psc_index.json            # "fathers" [] if unused
 ├── topics/
-│   └── topics_meta.json          # topic labels + colours
+│   └── topics_meta.json          # topic labels + colours / "topics" [] if unused
 └── citations/ # HOSTED ON HF
-    ├── letter_citations_index.json   
     └── detail/
         └── {letter_id}.json          # per-letter detail, loaded on click
 ```
+
+### Minimal schemas
+ 
+**letters_index.json** — array of:
+```json
+{
+  "id": "10001", "date": "1531-08-17",
+  "sender_id": "p8081", "recipient_ids": ["p495"], "place_id": "pl210",
+  "bd_url": "https://www.bullinger-digital.ch/letter/10001", // replace with own source url or keep empty
+  "dominant_topic": 13,          // keep empty if no topics
+  "topic_dist": [0.054711, 0.046107,..],    // keep empty if no topics
+  "top_citations": [{ "cf_id": "aug", "work_id": "aug_conf", "ce_score": 0.82 }]  // keep empty if no citations
+}
+```
+**location_arcs.json** — array of `{ "source_place", "target_place", "weight", "letter_ids": [...] }` — can be `[]`
+
+**persons_index.json** — array of `{ "id", "name", "letter_count", "portrait", "wiki", "gnd"} // portrait, wiki, gnd = optional`
+ 
+**places_index.json** — array of `{ "id", "name", "country", "lat", "lon" }`
+ 
+**psc_index.json** — `{ "fathers": [{ "id", "name", "works": [{ "work_id", "title", "source_url" }] }] }` — can be `[]`
+ 
+**topics_meta.json** — `{ "topics": [{ "id", "label", "color", "theme", "top_words": [...] }] }` — can be `[]`
+
+### Things to update in app.js
+ 
+| Line | What | Change to |
+|------|------|-----------|
+| 31 | `DETAIL_BASE_URL` | your detail file host |
+| 255, 304, 369 | `BULLINGER = "p495"` | your hub person's ID |
+| 319 | `<= 30 * 86400000` | edit the days for epistolary edges (ongoing conversations) |
+| 919-956 | theme list in `buildTopicFilters()` | edit topic themes (or remove grouping) |
 
 ## Views
 
