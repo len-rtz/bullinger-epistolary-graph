@@ -28,7 +28,7 @@ const STATE = {
 
 // ── Raw data ──────────────────────────────────────────────────────────────────
 
-const DETAIL_BASE_URL = "https://huggingface.co/datasets/len-rtz/bullinger-topic-citations/resolve/main";
+const DETAIL_BASE_URL = "https://huggingface.co/datasets/len-rtz/bullinger-references-topics/resolve/main";
 
 const DATA = {
   letters:      [],   // letters_index.json
