@@ -28,6 +28,8 @@ const STATE = {
 
 // ── Raw data ──────────────────────────────────────────────────────────────────
 
+const DETAIL_BASE_URL = "https://huggingface.co/datasets/len-rtz/bullinger-references-topics/resolve/main";
+
 const DATA = {
   letters:      [],   // letters_index.json
   persons:      {},   // persons_index.json keyed by id
@@ -687,20 +689,14 @@ async function showLetterDetail(letter) {
     <hr style="border:none;border-top:1px solid #eee;margin:8px 0">
   `;
 
-// load detail from Parquet via HF datasets API
-let detail = null;
-try {
-  const apiUrl = `https://datasets-server.huggingface.co/rows?dataset=len-rtz/bullinger-references-topics&config=default&split=train&where=letter_id=${letter.id}&limit=1`;
-  const r = await fetch(apiUrl);
-  if (r.ok) {
-    const json = await r.json();
-    if (json.rows && json.rows.length > 0) {
-      detail = json.rows[0].row;
-    }
+  // Try to load detail file lazily
+  let detail = null;
+  try {
+    const dir = Math.floor(parseInt(letter.id) / 1000);
+    detail = await fetchJSON(`${DETAIL_BASE_URL}/${dir}/${letter.id}.json`);
+  } catch(e) {
+    // no detail file yet — show placeholder
   }
-} catch(e) {
-  // no detail available
-}
 
   if (detail && detail.citations && detail.citations.length > 0) {
     const filtered = detail.citations.filter(c =>
